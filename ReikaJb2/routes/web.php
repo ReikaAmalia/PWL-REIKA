@@ -52,3 +52,15 @@ Route::get('/articles/{id}', function ($Id) {
 Route::get('/user/{name?}', function ($name='John') {
     return 'Nama saya '.$name;
 });
+
+// Route::get('/user/profile', function () {
+//     // 
+// })->name ('profile');
+
+// Route::get( 
+//     '/user/profile', 
+//     [UserProfileController::class, 'show'] 
+// )->name('profile'); 
+
+// $url = route('profile'); 
+// return redirect()->route('profile'); 
