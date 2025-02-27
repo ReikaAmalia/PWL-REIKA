@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PhotoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
 
@@ -65,3 +66,12 @@ Route::get('/user/{name?}', function ($name='John') {
 
 // $url = route('profile'); 
 // return redirect()->route('profile'); 
+
+Route::resource('photos', PhotoController::class);
+
+Route::resource('photos', PhotoController::class)->only([ 
+    'index', 'show' 
+]); 
+ 
+Route::resource('photos', PhotoController::class)->except([ 
+    'create', 'store', 'update', 'destroy' ]); 
