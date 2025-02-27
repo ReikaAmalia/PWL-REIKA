@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 class PageController extends Controller
 {
     public function index(){
-        return 'Hello kfevbfn';
+        return 'Selamat Datang';
+    }
+
+    public function about(){
+        return 'Reika Amalia S-2341720173';
+    }
+
+    public function articles(){
+        return 'Halaman Artikel dengan Id:';
     }
 }
