@@ -49,6 +49,6 @@ Route::get('/articles/{id}', function ($Id) {
     return 'Halaman Artikel dengan ID '.$Id;
 });
 
-Route::get('/user/{name?}', function ($name='null') {
+Route::get('/user/{name?}', function ($name='John') {
     return 'Nama saya '.$name;
 });
