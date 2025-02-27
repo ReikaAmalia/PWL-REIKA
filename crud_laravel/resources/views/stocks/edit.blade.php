@@ -17,7 +17,7 @@
 
         <!-- Untuk mengedit deskripsi stock dan nilai default diambil dari data stock yang ada -->
         <label for="description">Description:</label>
-        <textarea name="description" required>{{ $item->description }}</textarea>
+        <textarea name="description" required>{{ $stock->description }}</textarea>
         <br>
 
         <!-- Untuk mengirimkan form dan memperbarui stock -->

@@ -15,7 +15,7 @@ use App\Http\Controllers\StockController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return ('welcome 123');
 });
 
 Route::resource('stocks', StockController::class);

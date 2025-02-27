@@ -16,7 +16,7 @@
 
     <ul>
         <!-- Pengulangan melalui semua data stock yang diterima dari controller -->
-        @foreach ($stocks as $stock) //beri komen
+        @foreach ($stocks as $stock) 
             <li>
                 {{ $stock->name }} - <!-- Menampilkan nama stock -->
                 <a href="{{ route('stocks.edit', $stock) }}">Edit</a> <!-- Link edit stock yang dipilih -->
