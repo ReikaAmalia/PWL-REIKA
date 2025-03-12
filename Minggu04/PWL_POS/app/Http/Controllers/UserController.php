@@ -100,9 +100,22 @@ class UserController extends Controller
     //     return view('user', ['data' => $user]);
     // }
 
+    // public function index()
+    // {
+    //     $user = UserModel::where('username', 'manager9')->firstOrFail();
+    //     return view('user', ['data' => $user]);
+    // }
+
+    // public function index()
+    // {
+    //     $user = UserModel::where('level_id', 2)->count();
+    //     dd($user);
+    //     return view('user', ['data' => $user]);
+    // }
+
     public function index()
     {
-        $user = UserModel::where('username', 'manager9')->firstOrFail();
-        return view('user', ['data' => $user]);
+    $jumlahPengguna = UserModel::where('level_id', 2)->count();
+    return view('user', ['jumlahPengguna' => $jumlahPengguna]);
     }
 };
