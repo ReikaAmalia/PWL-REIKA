@@ -113,9 +113,72 @@ class UserController extends Controller
     //     return view('user', ['data' => $user]);
     // }
 
+    // public function index()
+    // {
+    // $jumlahPengguna = UserModel::where('level_id', 2)->count();
+    // return view('user', ['jumlahPengguna' => $jumlahPengguna]);
+    // }
+
+    // public function index()
+    // {
+    //     $user = UserModel::firstOrCreate(
+    //         [
+    //             'username' => 'manager',
+    //             'nama' => 'Manager',
+    //         ],
+    //     );
+    //     return view('user', ['data' => $user]);
+    // }
+
+    // public function index()
+    // {
+    //     $user = UserModel::firstOrCreate(
+    //         [
+    //             'username' => 'manager',
+    //             'nama' => 'Manager',
+    //             'password' => Hash::make('12345'),
+    //             'level_id' => 2
+    //         ],
+    //     );
+    //     return view('user', ['data' => $user]);
+    // }
+
+    // public function index()
+    // {
+    //     $user = UserModel::firstOrCreate(
+    //         [
+    //             'username' => 'manager',
+    //             'nama' => 'Manager',
+    //         ],
+    //     );
+    //     return view('user', ['data' => $user]);
+    // }
+
+    // public function index()
+    // {
+    //     $user = UserModel::firstOrCreate(
+    //         [
+    //             'username' => 'manager33',
+    //             'nama' => 'Manager Tiga Tiga',
+    //             'password' => Hash::make('12345'),
+    //             'level_id' => 2
+    //         ],
+    //     );
+    //     return view('user', ['data' => $user]);
+    // }
+
     public function index()
     {
-    $jumlahPengguna = UserModel::where('level_id', 2)->count();
-    return view('user', ['jumlahPengguna' => $jumlahPengguna]);
+        $user = UserModel::firstOrCreate(
+            [
+                'username' => 'manager33',
+                'nama' => 'Manager Tiga Tiga',
+                'password' => Hash::make('12345'),
+                'level_id' => 2
+            ],
+        );
+        $user ->save();
+        
+        return view('user', ['data' => $user]);
     }
 };
