@@ -86,11 +86,23 @@ class UserController extends Controller
     //     return view('user', ['data' => $user]);
     // }
 
+    // public function index()
+    // {
+    //     $user = UserModel::findOr(20,['username', 'nama'], function (){
+    //         abort(404);
+    //     })->first();
+    //     return view('user', ['data' => $user]);
+    // }
+
+    // public function index()
+    // {
+    //     $user = UserModel::findOrFail(1);
+    //     return view('user', ['data' => $user]);
+    // }
+
     public function index()
     {
-        $user = UserModel::findOr(20,['username', 'nama'], function (){
-            abort(404);
-        })->first();
+        $user = UserModel::where('username', 'manager9')->firstOrFail();
         return view('user', ['data' => $user]);
     }
 };
