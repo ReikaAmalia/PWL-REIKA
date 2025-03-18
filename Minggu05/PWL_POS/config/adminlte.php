@@ -329,9 +329,9 @@ return [
         ],
         ['header' => 'account_settings'],
         [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'Manage Kategori',
+             'url' => 'kategori',
+             'icon' => 'fas fa-list',
         ],
         [
             'text' => 'change_password',
