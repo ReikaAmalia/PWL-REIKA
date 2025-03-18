@@ -56,3 +56,7 @@ Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
 Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
 Route::get('/kategori/create', [KategoriController::class, 'create']);
 Route::post('/kategori', [KategoriController::class, 'store']);
+
+//modifikasi 
+Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create'); // Form pembuatan kategori baru
+Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store'); // Menyimpan kategori baru
