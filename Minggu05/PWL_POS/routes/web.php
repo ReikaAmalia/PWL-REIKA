@@ -36,7 +36,7 @@
 
 // TERBARU
 
-use App\Http\Controllers\KategoriCotroller;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -46,7 +46,7 @@ Route::get('/', function () {
 });
 
 Route::get('/level', [LevelController::class, 'index']);
-Route::get('/kategori', [KategoriCotroller::class, 'index']);
+Route::get('/kategori', [KategoriController::class, 'index']);
 Route::get('/user', [UserController::class, 'index']);
 //jb 4 
 Route::get('/user/tambah', [UserController::class, 'tambah']);
