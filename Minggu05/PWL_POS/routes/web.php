@@ -60,3 +60,9 @@ Route::post('/kategori', [KategoriController::class, 'store']);
 //modifikasi 
 Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create'); // Form pembuatan kategori baru
 Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store'); // Menyimpan kategori baru
+
+Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+Route::post('/kategori/{id}/update', [KategoriController::class, 'update'])->name('kategori.update');
+Route::resource('kategori', KategoriController::class);
+
+Route::get('/kategori/delete/{id}', [KategoriController::class, 'delete'])->name('kategori.delete');

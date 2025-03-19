@@ -22,9 +22,16 @@ use Yajra\DataTables\Services\DataTable;
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-    return (new EloquentDataTable($query))
-    /* ->addColumn('action', 'kategori.action') */
-    ->setRowId('id');
+        return (new EloquentDataTable(model: $query))
+            ->addColumn(name: 'action', content: function ($id): string {
+                $edit = route(name: 'kategori.edit', parameters: $id);
+                $delete = route(name: 'kategori.delete', parameters: $id);
+
+                return '<a href="' . $edit . '" class="btn btn-warning btn-sm">Edit</a>
+                <a href="' . $delete . '" class="btn btn-danger btn-sm">Delete</a>';
+            })
+            ->setRowId(content: 'id');
+
     }
 
     /**
@@ -64,16 +71,17 @@ use Yajra\DataTables\Services\DataTable;
     public function getColumns(): array
     {
     return [
-        /* Column::computed('action')
-        ->exportable(false)
-        ->printable(false)
-        ->width(60)
-        ->addClass('text-center'), */
-        Column::make('kategori_id'),
+         Column::make('kategori_id'),
         Column::make('kategori_kode'),
         Column::make('kategori_nama'),
         Column::make('created_at'),
         Column::make('updated_at'),
+        Column::computed('action')
+        ->exportable(false)
+        ->printable(false)
+        ->width(200)
+        ->addClass('text-center'), 
+       
     ];
 }
 
