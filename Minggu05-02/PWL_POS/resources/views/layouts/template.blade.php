@@ -12,11 +12,12 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
 </head>
+
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
-  @include('layouts.header')
+  @include('layouts.header') 
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -30,6 +31,7 @@
     <!-- Sidebar -->
     @include('layouts.sidebar')
     <!-- /.sidebar -->
+  </aside>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
