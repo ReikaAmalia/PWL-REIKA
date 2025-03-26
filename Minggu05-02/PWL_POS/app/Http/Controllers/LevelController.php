@@ -7,20 +7,10 @@ use App\Models\LevelModel;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-Class LevelController extends Controller
+class LevelController extends Controller
 {
     public function index()
     {
-        // DB::insert('insert into m_level(level_kode, level_nama, created_at) values(?, ?, ?)', ['CUS', 'Pelanggan', now()]);
-        // return 'Insert data baru berhasil';
-
-        // $row = DB::update('update m_level set level_nama = ? where level_kode = ?', ['Customer', 'CUS']);
-        // return 'Update data berhasil. Jumlah data yang diupdate: ' . $row . ' baris';
-
-
-        // $row = DB::delete('delete from m_level where level_kode = ?', ['CUS']);
-        // return 'Delete data berhasil. Jumlah data yang dihapus: ' . $row . ' baris';
-
         $breadcrumb = (object) [
             'title' => 'Daftar Level',
             'list' => ['Home', 'Level']
@@ -36,16 +26,22 @@ Class LevelController extends Controller
 
         return view('level.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
 
+        // DB::insert('INSERT INTO m_level(level_kode, level_nama, created_at) values(?, ?, ?)', ['CUS','Pelanggan', now()]);
+        // return 'insert data baru berhasil';
+
+        // $row = DB::update('UPDATE m_level set level_nama = ? where level_kode = ?',['Customer','CUS']);
+        // return 'Update data berhasil. Jumlah data yang diupdate: ' . $row.'baris';
+
+        // $row = DB::delete('delete from m_level where level_kode = ?', ['CUS']);
+        // return 'Delete data berhasil. Jumlah data yang dihapus: '. $row . ' baris';
+
+        // $data = DB::select('SELECT * from m_level');
+        // return view('level', ['data' => $data]);
     }
 
-        public function list(Request $request)
-        {
-            $levels = LevelModel::select('level_id', 'level_kode', 'level_nama');
-
-        
-        // $data = DB::select('select * from m_level');
-        // return view('level', ['data' => $data]);
-    
+    public function list(Request $request)
+    {
+        $levels = LevelModel::select('level_id', 'level_kode', 'level_nama');
 
         // Filter berdasarkan level_kode
         if ($request->level_kode) {
