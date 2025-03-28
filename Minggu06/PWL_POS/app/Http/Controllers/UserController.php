@@ -489,7 +489,7 @@ class UserController extends Controller
 
     public function store_ajax(Request $request)
     {
-        // cek apakah request berupa ajax
+        // Mengecek apakah request berupa ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'level_id' => 'required|integer',
@@ -530,7 +530,7 @@ class UserController extends Controller
      // prak 2
      public function update_ajax(Request $request, $id)
      {
-         // cek apakah request dari ajax 
+         // Mengecek apakah request dari ajax 
          if ($request->ajax() || $request->wantsJson()) {
              $rules = [
                  'level_id' => 'required|integer',
@@ -568,6 +568,33 @@ class UserController extends Controller
                  ]);
              }
          }
+         return redirect('/');
+     }
+
+     public function confirm_ajax(string $id)
+     {
+         $user = UserModel::find($id);
+         return view('user.confirm_ajax', ['user' => $user]);
+     }
+
+     public function delete_ajax(request $request, $id)
+     {
+         if ($request->ajax() || $request->wantsJson()) {
+             $user = UserModel::find($id);
+             if ($user) {
+                 $user->delete();
+                 return response()->json([
+                     'status' => true,
+                     'message' => 'Data berhasil dihapus'
+                 ]);
+             } else {
+                 return response()->json([
+                     'status' => false,
+                     'message' => 'Data tidak ditemukan'
+                 ]);
+             }
+         }
+ 
          return redirect('/');
      }
 
