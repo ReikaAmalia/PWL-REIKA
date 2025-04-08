@@ -57,10 +57,12 @@
                  <!-- /.col -->
              </div>
          </form>
+         <p class="mt-3 text-center">Don't have account?<a href="{{ url('register') }}"> Register Now!</a></p>
      </div>
      <!-- /.card-body -->
      </div>
      <!-- /.card -->
+ </div>
  </div>
  <!-- /.login-box -->
  
