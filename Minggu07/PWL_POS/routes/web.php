@@ -72,6 +72,7 @@ Route::pattern('id', '[0-9]+'); // artinya ketika ada parameter {id}, maka harus
  
      // masukkan semua route yang perlu autentikasi di sini
      Route::get('/', [WelcomeController::class, 'index']); 
+
  });
 
 //jb 5 terbaru prak 2
@@ -98,27 +99,26 @@ Route::group(['prefix' => 'user'], function () {
     Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
 });
 
-Route::group(['prefix' => 'level'], function () {
-    Route::get('/', [LevelController::class, 'index']); // menampilkan halaman awal level
-    Route::post('/list', [LevelController::class, 'list']); // menampilkan data level dalam bentuk json untuk datatables
-    Route::get('/create', [LevelController::class, 'create']); // menampilkan halaman form tambah level
-    Route::post('/', [LevelController::class, 'store']); // menyimpan data level baru
-    //tugas jb 6
-    Route::get('/create_ajax', [LevelController::class, 'create_ajax']); // Menampilkan halaman form tambah user Ajax
-    Route::post('/ajax', [LevelController::class, 'store_ajax']); // Menyimpan data user baru Ajax
-
-    Route::get('/{id}', [LevelController::class, 'show']); // menampilkan detail level
-    Route::get('/{id}/edit', [LevelController::class, 'edit']); // menampilkan halaman form edit level
-    Route::put('/{id}', [LevelController::class, 'update']); // menyimpan perubahan data level
-    //tugas jb 6
-    Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax']); //Menampilkan halaman
-    Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax']); //Menyimpan perubahan
-    // tugas jb 6
-    Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']); // Untuk tampilkan form confirm delete user Ajax
-    Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']); // Untuk hapus data user Ajax
-
-    Route::delete('/{id}', [LevelController::class, 'destroy']); // menghapus data level
-});
+    //route level
+     //artinya semua route di dalam group ini harus punya role ADM (Administrator)
+     Route::middleware(['authorize:ADM'])->group(function(){
+        Route::group(['prefix' => 'level'], function () {
+            Route::get('/', [LevelController::class, 'index']); 
+            Route::post('/list', [LevelController::class, 'list']); 
+            Route::get('/create', [LevelController::class, 'create']); 
+            Route::post('/', [LevelController::class, 'store']); 
+            Route::get('/create_ajax', [LevelController::class, 'create_ajax']);  
+            Route::post('/ajax', [LevelController::class, 'store_ajax']); 
+            Route::get('/{id}', [LevelController::class, 'show']);
+            Route::get('/{id}/edit', [LevelController::class, 'edit']); 
+            Route::put('/{id}', [LevelController::class, 'update']);
+            Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax']); 
+            Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax']); 
+            Route::delete('/{id}', [LevelController::class, 'destroy']); 
+            Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']); 
+            Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']); 
+        });
+    });
 
 Route::group(['prefix' => 'kategori'], function () {
     Route::get('/', [KategoriCotroller::class, 'index']); // menampilkan halaman awal kategori
