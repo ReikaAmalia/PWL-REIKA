@@ -121,6 +121,8 @@ Route::group(['prefix' => 'user'], function () {
             Route::delete('/{id}', [LevelController::class, 'destroy']); 
             Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']); 
             Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']); 
+            Route::get('/import', [LevelController::class, 'import']); // menampilkan halaman form upload excel level ajax
+            Route::post('/import_ajax', [LevelController::class, 'import_ajax']); // menyimpan import excel level ajax
         });
     });
 

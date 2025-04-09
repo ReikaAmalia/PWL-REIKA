@@ -1,11 +1,13 @@
 @extends('layouts.template')
 @section('content')
-    <div class="card card-outline card-primary">
+    <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{ $page->title }}</h3>
+            <h3 class="card-title">Daftar Level</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('level/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('level/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <button onclick="modalAction('{{ url('/level/import') }}')" class="btn btn-info">Import Level</button>
+                  <a class="btn btn-primary" href="{{ url('level/create') }}">Tambah Data</a>
+                  <button onclick="modalAction('{{ url('level/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
+            </div>
             </div>
         </div>
         @if (session('success'))
@@ -34,10 +36,11 @@
             <table class="table table-bordered table-striped table-hover table-sm" id="table_level">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Kode Level</th>
-                        <th>Nama Level</th>
-                        <th>Aksi</th>
+                        <th style="text-align: center;">No</th>
+                        <th style="text-align: center;">ID Level</th>
+                        <th style="text-align: center;">Kode Level</th>
+                        <th style="text-align: center;">Nama Level</th>
+                        <th style="text-align: center;">Aksi</th>
                     </tr>
                 </thead>
             </table>
@@ -50,44 +53,55 @@
 @push('js')
     <script>
         function modalAction(url = '') {
-             $('#myModal').load(url, function () {
-                 $('#myModal').modal('show');
-             });
-         }
- 
-         var dataLevel;
-        $(document).ready(function () {
-            dataLevel = $('#table_level').DataTable({
-                serverSide: true,
-                ajax: {
-                    "url": "{{ url('level/list') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function (d) {
-                        d.level_kode = $('#level_kode').val();
-                    }
+          $('#myModal').load(url, function () {
+              $('#myModal').modal('show');
+          });
+      }
+      var tableLevel;
+      $(document).ready(function () {
+          tableLevel = $('#table_level').DataTable({
+              processing: true,
+              serverSide: true,
+              ajax: {
+                  url: "{{ url('level/list') }}",
+                  type: "POST",
+                  dataType: "json",
                 },
-                columns: [{
-                    data: "DT_RowIndex",
-                    className: "text-center",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "level_kode",
-                    className: "",
-                    orderable: true,
-                    searchable: true
-                }, {
-                    data: "level_nama",
-                    className: "",
-                    orderable: true,
-                    searchable: true
-                }, {
+                columns: [ {
+                      data: "DT_RowIndex",
+                      className: "text-center",
+                      width: "4%",
+                      orderable: false,
+                      searchable: false
+                  },
+                  {
+                      data: "level_id",
+                      className: "text-center",
+                      width: "10%",
+                      orderable: true,
+                      searchable: false
+                  },
+                  {
+                      data: "level_kode",
+                      className: "",
+                      width: "20%",
+                      orderable: true,
+                      searchable: true
+                  },
+                  {
+                      data: "level_nama",
+                      className: "",
+                      width: "40%",
+                      orderable: true,
+                      searchable: true
+                  },
+                  {
                     data: "aksi",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }]
+                      className: "text-center",
+                      orderable: false,
+                      searchable: false
+                  }
+                ]
             });
 
             $('#level_kode').on('change', function () {
