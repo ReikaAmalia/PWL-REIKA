@@ -193,5 +193,8 @@ Route::group(['prefix' => 'barang'], function () {
      Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']); // Untuk hapus data user Ajax
      
     Route::delete('/{id}', [BarangController::class, 'destroy']); // menghapus data barang
+    // js 8 prak 1
+    Route::get('/import', [BarangController::class, 'import']); // menampilkan halaman form upload excel barang ajax
+    Route::post('/import_ajax', [BarangController::class, 'import_ajax']); // menyimpan import excel barang ajax
 });
 });
