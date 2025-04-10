@@ -402,17 +402,17 @@
  
          $sheet->setTitle('Data Barang'); // set title sheet
  
-         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx'); //Membuat “penulis” file Excel dalam format .xlsx
          $filename = 'Data Barang_' . date('Y-m-d H:i:s') . '.xlsx';
  
-         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-         header('Content-Disposition: attachment;filename="' . $filename . '"');
+         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); // memberi tahu bahwa ini adalah file excel
+         header('Content-Disposition: attachment;filename="' . $filename . '"'); //Memberi tau browser supaya file langsung di-download, bukan dibuka di browser.  
          header('Cache-Control: max-age=0');
-         header('Cache-Control: max-age=1');
-         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-         header('Cache-Control: cache, must-revalidate');
-         header('Pragma: public');
+         header('Cache-Control: max-age=1'); //Supaya browser tidak menyimpan versi lama dari file ini.
+         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); //Tanggal kadaluarsa file ini ditetapkan ke masa lalu → artinya file ini harus dianggap baru setiap saat.  
+         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // memberi tahu bahwa sekarang adaah terakhir modifikasi.
+         header('Cache-Control: cache, must-revalidate'); // File ini bisa di-cache, tapi harus diperiksa dulu ke server apakah ada versi terbaru.
+         header('Pragma: public'); //Boleh disimpan (public cache) di beberapa kasus, untuk dukung browser lama.
  
          $writer->save('php://output');
          exit;
