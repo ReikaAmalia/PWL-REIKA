@@ -150,6 +150,8 @@ Route::group(['prefix' => 'kategori'], function () {
      Route::delete('/{id}/delete_ajax', [KategoriCotroller::class, 'delete_ajax']); // Untuk hapus data user Ajax
 
     Route::delete('/{id}', [KategoriCotroller::class, 'destroy']); // menghapus data kategori
+    Route::get('/import', [KategoriCotroller::class, 'import']); // menampilkan halaman form upload excel kategori ajax
+    Route::post('/import_ajax', [KategoriCotroller::class, 'import_ajax']); // menyimpan import excel kategori ajax
     });
 });
 
