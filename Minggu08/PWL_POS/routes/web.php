@@ -103,6 +103,7 @@ Route::group(['prefix' => 'user'], function () {
     //jb 8 tugas 1
     Route::get('/import', [UserController::class, 'import']); // menampilkan halaman form upload excel user ajax
     Route::post('/import_ajax', [UserController::class, 'import_ajax']); // menyimpan import excel user ajax
+    Route::get('/export_excel', [UserController::class, 'export_excel']); // export excel
     });
 });
 
@@ -126,6 +127,7 @@ Route::group(['prefix' => 'user'], function () {
             Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']); 
             Route::get('/import', [LevelController::class, 'import']); // menampilkan halaman form upload excel level ajax
             Route::post('/import_ajax', [LevelController::class, 'import_ajax']); // menyimpan import excel level ajax
+            Route::get('/export_excel', [LevelController::class, 'export_excel']); // export excel
         });
     });
 
@@ -152,6 +154,7 @@ Route::group(['prefix' => 'kategori'], function () {
     Route::delete('/{id}', [KategoriCotroller::class, 'destroy']); // menghapus data kategori
     Route::get('/import', [KategoriCotroller::class, 'import']); // menampilkan halaman form upload excel kategori ajax
     Route::post('/import_ajax', [KategoriCotroller::class, 'import_ajax']); // menyimpan import excel kategori ajax
+    Route::get('/export_excel', [KategoriCotroller::class, 'export_excel']); // export excel
     });
 });
 
@@ -178,6 +181,7 @@ Route::group(['prefix' => 'supplier'], function () {
     Route::delete('/{id}', [SupplierController::class, 'destroy']); // menghapus data supplier
     Route::get('/import', [SupplierController::class, 'import']); // menampilkan halaman form upload excel Supplier ajax
     Route::post('/import_ajax', [SupplierController::class, 'import_ajax']); // menyimpan import excel Supplier ajax
+    Route::get('/export_excel', [SupplierController::class, 'export_excel']); // export excel
     });
 });
 
