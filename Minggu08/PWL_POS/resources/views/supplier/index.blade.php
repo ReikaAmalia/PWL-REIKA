@@ -1,11 +1,12 @@
 @extends('layouts.template')
 @section('content')
-    <div class="card card-outline card-primary">
+    <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{ $page->title }}</h3>
+            <h3 class="card-title">Daftar Supplier</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('supplier/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('supplier/create_ajax') }}')"class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <button onclick="modalAction('{{ url('/supplier/import') }}')" class="btn btn-info">Import Supplier</button>
+                  <a class="btn btn-primary" href="{{ url('supplier/create') }}">Tambah Data</a>
+                  <button onclick="modalAction('{{ url('supplier/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
             </div>
         </div>
         @if (session('success'))
@@ -34,11 +35,12 @@
             <table class="table table-bordered table-striped table-hover table-sm" id="table_supplier">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Kode Supplier</th>
-                        <th>Nama Supplier</th>
-                        <th>Alamat</th>
-                        <th>Aksi</th>
+                        <th style="text-align: center;">No</th>
+                          <th style="text-align: center;">ID Supplier</th>
+                          <th style="text-align: center;">Kode Supplier</th>
+                          <th style="text-align: center;">Nama Supplier</th>
+                          <th style="text-align: center;">Alamat Supplier</th>
+                          <th style="text-align: center;">Aksi</th>
                     </tr>
                 </thead>
             </table>
@@ -49,48 +51,61 @@
 @endsection
 
 @push('js')
-    <script>
-        function modalAction(url = '') {
-             $('#myModal').load(url, function () {
-                 $('#myModal').modal('show');
-             });
-         }
- 
-         var dataSupplier;
-        $(document).ready(function () {
-            dataSupplier = $('#table_supplier').DataTable({
-                serverSide: true,
-                ajax: {
-                    "url": "{{ url('supplier/list') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function (d) {
-                        d.supplier_kode = $('#supplier_kode').val();
-                    }
-                },
-                columns: [{
+<script>
+    function modalAction(url = '') {
+        $('#myModal').load(url, function () {
+            $('#myModal').modal('show');
+        });
+    }
+
+    var tableSupplier;
+    $(document).ready(function () {
+        tableSupplier = $('#table_supplier').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ url('supplier/list') }}",
+                type: "POST",
+                dataType: "json",
+            },
+            columns: [
+                {
                     data: "DT_RowIndex",
                     className: "text-center",
+                    width: "4%",
                     orderable: false,
                     searchable: false
-                }, {
+                },
+                {
+                    data: "supplier_id",
+                    className: "text-center",
+                    width: "10%",
+                    orderable: true,
+                    searchable: false
+                },
+                {
                     data: "supplier_kode",
                     className: "",
+                    width: "10%",
                     orderable: true,
                     searchable: true
-                }, {
+                },
+                {
                     data: "supplier_nama",
                     className: "",
+                    width: "20%",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "supplier_alamat",
+                    className: "",
+                    width: "30%",
                     orderable: true,
                     searchable: true
                 }, {
-                    data: "supplier_alamat",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }, {
                     data: "aksi",
-                    className: "",
+                    className: "text-center",
                     orderable: false,
                     searchable: false
                 }]

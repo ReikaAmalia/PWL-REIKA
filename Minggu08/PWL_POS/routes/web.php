@@ -176,6 +176,8 @@ Route::group(['prefix' => 'supplier'], function () {
     Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']); // Untuk hapus data user Ajax
 
     Route::delete('/{id}', [SupplierController::class, 'destroy']); // menghapus data supplier
+    Route::get('/import', [SupplierController::class, 'import']); // menampilkan halaman form upload excel Supplier ajax
+    Route::post('/import_ajax', [SupplierController::class, 'import_ajax']); // menyimpan import excel Supplier ajax
     });
 });
 
