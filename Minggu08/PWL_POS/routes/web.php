@@ -100,6 +100,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); // Untuk hapus data user Ajax
 
     Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
+    //jb 8 tugas 1
+    Route::get('/import', [UserController::class, 'import']); // menampilkan halaman form upload excel user ajax
+    Route::post('/import_ajax', [UserController::class, 'import_ajax']); // menyimpan import excel user ajax
     });
 });
 
