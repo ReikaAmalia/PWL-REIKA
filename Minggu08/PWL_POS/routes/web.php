@@ -210,5 +210,6 @@ Route::group(['prefix' => 'barang'], function () {
     Route::get('/import', [BarangController::class, 'import']); // menampilkan halaman form upload excel barang ajax
     Route::post('/import_ajax', [BarangController::class, 'import_ajax']); // menyimpan import excel barang ajax
     Route::get('/export_excel', [BarangController::class, 'export_excel']); // export excel
+    Route::get('/export_pdf', [BarangController::class, 'export_pdf']); // export pdf
 });
 });
