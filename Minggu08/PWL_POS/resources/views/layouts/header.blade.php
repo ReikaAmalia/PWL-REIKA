@@ -121,11 +121,66 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
+
+    <!-- User Profile Dropdown -->
+    <li class="nav-item dropdown user-menu">
+      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+        @if (Auth::user()->foto)
+    <img src="{{ asset('storage/foto/' . Auth::user()->foto) }}"
+         class="user-image" alt="User Image"
+         style="object-fit: cover; width: 25px; height: 25px; border-radius: 50%;">
+@else
+<img src="{{ Auth::user()->foto ? asset('storage/foto/' . Auth::user()->foto) : asset('adminlte/dist/img/user1-128x128.jpg') }}"
+class="user-image" alt="User Image"
+style="object-fit: cover; width: 25px; height: 25px; border-radius: 50%;">
+
+@endif
+
+    
+      </a>
+      <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        
+        <!-- User Info Header -->
+        <li class="dropdown-item d-flex align-items-center">
+          @if (Auth::user()->foto)
+          <img src="{{ asset('storage/foto/' . Auth::user()->foto) }}"
+               class="img-circle mr-2" alt="User Image"
+               style="object-fit: cover; width: 50px; height: 50px;">
+      @else
+          <div class="img-circle mr-2 bg-secondary d-flex align-items-center justify-content-center text-white"
+               style="width: 50px; height: 50px;">
+              <i class="fas fa-user" style="font-size: 24px;"></i>
+          </div>
+      @endif      
+          <span class="font-weight-bold">{{ Auth::user()->nama }}</span>
+        </li>
+
+        <li class="dropdown-divider"></li>
+
+        <!-- Lihat Profil -->
+        <li>
+          <a href="{{ url('/profile') }}" class="dropdown-item">
+            <i class="fas fa-user mr-2"></i> Lihat Profil
+          </a>
+        </li>
+
+        <!-- Logout -->
+        <li>
+          <a href="#" class="dropdown-item text-danger" onclick="confirmLogout(event)">
+            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </li>
+
+       <!-- Fullscreen Button -->
+       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
+
+      <!-- Control Sidebar Toggle -->
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
@@ -133,3 +188,41 @@
       </li>
     </ul>
   </nav>
+
+  <!-- konfirmasi logout -->
+<!-- SweetAlert2 -->
+<script src="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script>
+    function confirmLogout(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Logout?',
+            text: "Apakah kamu yakin ingin keluar?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Logout',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Membuat form logout secara dinamis
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = "{{ route('logout') }}"; // Ganti dengan URL rute logout kamu
+
+                // Menambahkan token CSRF
+                var csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = '_token';
+                csrfToken.value = "{{ csrf_token() }}";
+                form.appendChild(csrfToken);
+
+                // Mengirim form
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+</script>

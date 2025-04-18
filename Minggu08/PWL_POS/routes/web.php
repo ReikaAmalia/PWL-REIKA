@@ -44,6 +44,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -67,6 +68,7 @@ Route::pattern('id', '[0-9]+'); // artinya ketika ada parameter {id}, maka harus
  Route::get('login', [AuthController::class, 'login'])->name('login');
  Route::post('login', [AuthController::class, 'postlogin']);
  Route::post('logout', [AuthController::class, 'logout'])->middleware('auth');
+ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
  Route::get('register', [AuthController::class, 'register'])->name('register');
  Route::post('register', [AuthController::class, 'postregister']);
  
@@ -216,4 +218,11 @@ Route::group(['prefix' => 'barang'], function () {
     Route::get('/export_excel', [BarangController::class, 'export_excel']); // export excel
     Route::get('/export_pdf', [BarangController::class, 'export_pdf']); // export pdf
 });
+
+    Route::group(['prefix' => 'profile'], function () {
+    Route::get('/', [ProfileController::class, 'index']);
+    Route::post('/update_photo', [ProfileController::class, 'update_photo']);
+});
+
+
 });
