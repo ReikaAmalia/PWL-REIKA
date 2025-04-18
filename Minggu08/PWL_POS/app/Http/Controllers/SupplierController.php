@@ -7,6 +7,7 @@
  use Yajra\DataTables\Facades\DataTables;
  use Illuminate\Support\Facades\Validator;
  use PhpOffice\PhpSpreadsheet\IOFactory;
+ use Barryvdh\DomPDF\Facade\Pdf;
  
  class SupplierController extends Controller
  {
@@ -343,7 +344,7 @@
       public function export_excel()
      {
          // ambil data supplier yang akan di export
-         $supplier = SupplierModel::select('supplier_kode', 'supplier_nama', 'supplier_alamat')
+         $supplier = SupplierModel::select('supplier_id','supplier_kode', 'supplier_nama', 'supplier_alamat')
              ->orderBy('supplier_id')
              ->get();
  
@@ -352,24 +353,26 @@
          $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
  
          $sheet->setCellValue('A1', 'No');
-         $sheet->setCellValue('B1', 'Kode Supplier');
-         $sheet->setCellValue('C1', 'Nama Supplier');
-         $sheet->setCellValue('D1', 'Alamat Supplier');
+         $sheet->setCellValue('B1', 'Id Supplier');
+         $sheet->setCellValue('C1', 'Kode Supplier');
+         $sheet->setCellValue('D1', 'Nama Supplier');
+         $sheet->setCellValue('E1', 'Alamat Supplier');
  
-         $sheet->getStyle('A1:D1')->getFont()->setBold(true); // bold header
+         $sheet->getStyle('A1:E1')->getFont()->setBold(true); // bold header
  
          $no = 1; // nomor data dimulai dari 1
          $baris = 2; // baris data dimulai dari baris ke 2
          foreach ($supplier as $key => $value) {
              $sheet->setCellValue('A' . $baris, $no);
-             $sheet->setCellValue('B' . $baris, $value->supplier_kode);
-             $sheet->setCellValue('C' . $baris, $value->supplier_nama);
-             $sheet->setCellValue('D' . $baris, $value->supplier_alamat);
+             $sheet->setCellValue('B' . $baris, $value->supplier_id);
+             $sheet->setCellValue('C' . $baris, $value->supplier_kode);
+             $sheet->setCellValue('D' . $baris, $value->supplier_nama);
+             $sheet->setCellValue('E' . $baris, $value->supplier_alamat);
              $baris++;
              $no++;
          }
  
-         foreach (range('A', 'D') as $columnID) {
+         foreach (range('A', 'E') as $columnID) {
              $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
          }
  
@@ -389,5 +392,18 @@
  
          $writer->save('php://output');
          exit;
+     }
+
+     public function export_pdf()
+     {
+         $supplier = SupplierModel::select('supplier_id', 'supplier_kode', 'supplier_nama', 'supplier_alamat')
+             ->orderBy('supplier_id')
+             ->get();
+         $pdf = Pdf::loadView('supplier.export_pdf', ['supplier' => $supplier]);
+         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+         $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+         $pdf->render(); // Render the PDF as HTML - uncomment if you want to see the HTML outputw
+ 
+         return $pdf->stream('Data Supplier' . date('Y-m-d H:i:s') . '.pdf');
      }
  }

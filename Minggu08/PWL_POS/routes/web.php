@@ -104,7 +104,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/import', [UserController::class, 'import']); // menampilkan halaman form upload excel user ajax
     Route::post('/import_ajax', [UserController::class, 'import_ajax']); // menyimpan import excel user ajax
     Route::get('/export_excel', [UserController::class, 'export_excel']); // export excel
-    });
+    Route::get('/export_pdf', [UserController::class, 'export_pdf']); // export pdf
+        });
 });
 
     //route level
@@ -128,6 +129,7 @@ Route::group(['prefix' => 'user'], function () {
             Route::get('/import', [LevelController::class, 'import']); // menampilkan halaman form upload excel level ajax
             Route::post('/import_ajax', [LevelController::class, 'import_ajax']); // menyimpan import excel level ajax
             Route::get('/export_excel', [LevelController::class, 'export_excel']); // export excel
+            Route::get('/export_pdf', [LevelController::class, 'export_pdf']); // export pdf
         });
     });
 
@@ -155,6 +157,7 @@ Route::group(['prefix' => 'kategori'], function () {
     Route::get('/import', [KategoriCotroller::class, 'import']); // menampilkan halaman form upload excel kategori ajax
     Route::post('/import_ajax', [KategoriCotroller::class, 'import_ajax']); // menyimpan import excel kategori ajax
     Route::get('/export_excel', [KategoriCotroller::class, 'export_excel']); // export excel
+    Route::get('/export_pdf', [KategoriCotroller::class, 'export_pdf']); // export pdf
     });
 });
 
@@ -182,6 +185,7 @@ Route::group(['prefix' => 'supplier'], function () {
     Route::get('/import', [SupplierController::class, 'import']); // menampilkan halaman form upload excel Supplier ajax
     Route::post('/import_ajax', [SupplierController::class, 'import_ajax']); // menyimpan import excel Supplier ajax
     Route::get('/export_excel', [SupplierController::class, 'export_excel']); // export excel
+    Route::get('/export_pdf', [SupplierController::class, 'export_pdf']); // export pdf
     });
 });
 
