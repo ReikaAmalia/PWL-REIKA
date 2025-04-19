@@ -2,25 +2,78 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PenjualanSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
         $data = [
-            ['penjualan_id' => 1, 'user_id' => 1, 'penjualan_kode' => 'PJ001', 'pembeli' => 'Pembeli 1', 'penjualan_tanggal' => now()],
-            ['penjualan_id' => 2, 'user_id' => 1, 'penjualan_kode' => 'PJ002', 'pembeli' => 'Pembeli 2', 'penjualan_tanggal' => now()],
-            ['penjualan_id' => 3, 'user_id' => 1, 'penjualan_kode' => 'PJ003', 'pembeli' => 'Pembeli 3', 'penjualan_tanggal' => now()],
-            ['penjualan_id' => 4, 'user_id' => 1, 'penjualan_kode' => 'PJ004', 'pembeli' => 'Pembeli 4', 'penjualan_tanggal' => now()],
-            ['penjualan_id' => 5, 'user_id' => 1, 'penjualan_kode' => 'PJ005', 'pembeli' => 'Pembeli 5', 'penjualan_tanggal' => now()],
-            ['penjualan_id' => 6, 'user_id' => 1, 'penjualan_kode' => 'PJ006', 'pembeli' => 'Pembeli 6', 'penjualan_tanggal' => now()],
-            ['penjualan_id' => 7, 'user_id' => 1, 'penjualan_kode' => 'PJ007', 'pembeli' => 'Pembeli 7', 'penjualan_tanggal' => now()],
-            ['penjualan_id' => 8, 'user_id' => 1, 'penjualan_kode' => 'PJ008', 'pembeli' => 'Pembeli 8', 'penjualan_tanggal' => now()],
-            ['penjualan_id' => 9, 'user_id' => 1, 'penjualan_kode' => 'PJ009', 'pembeli' => 'Pembeli 9', 'penjualan_tanggal' => now()],
-            ['penjualan_id' => 10, 'user_id' => 1, 'penjualan_kode' => 'PJ010', 'pembeli' => 'Pembeli 10', 'penjualan_tanggal' => now()],
+            [
+                'user_id' => 1, // Admin
+                'pembeli' => 'Reika Amalia',
+                'penjualan_kode' => 'CC01',
+                'penjualan_tanggal' => Carbon::now()->subDays(1),
+            ],
+            [
+                'user_id' => 2, // Manager
+                'pembeli' => 'Ghetsa Ramadhani',
+                'penjualan_kode' => 'CC02',
+                'penjualan_tanggal' => Carbon::now()->subDays(2),
+            ],
+            [
+                'user_id' => 3, // Staff
+                'pembeli' => 'Cindy Larasati',
+                'penjualan_kode' => 'CC03',
+                'penjualan_tanggal' => Carbon::now()->subDays(3),
+            ],
+            [
+                'user_id' => 1,
+                'pembeli' => 'Vanessa',
+                'penjualan_kode' => 'CC04',
+                'penjualan_tanggal' => Carbon::now()->subDays(4),
+            ],
+            [
+                'user_id' => 2,
+                'pembeli' => 'Oltha',
+                'penjualan_kode' => 'CC05',
+                'penjualan_tanggal' => Carbon::now()->subDays(5),
+            ],
+            [
+                'user_id' => 3,
+                'pembeli' => 'Ninis',
+                'penjualan_kode' => 'CC06',
+                'penjualan_tanggal' => Carbon::now()->subDays(6),
+            ],
+            [
+                'user_id' => 1,
+                'pembeli' => 'Neva',
+                'penjualan_kode' => 'CC07',
+                'penjualan_tanggal' => Carbon::now()->subDays(7),
+            ],
+            [
+                'user_id' => 2,
+                'pembeli' => 'Kubu Barat',
+                'penjualan_kode' => 'CC08',
+                'penjualan_tanggal' => Carbon::now()->subDays(8),
+            ],
+            [
+                'user_id' => 3,
+                'pembeli' => 'Aisha Baiqa',
+                'penjualan_kode' => 'CC09',
+                'penjualan_tanggal' => Carbon::now()->subDays(9),
+            ],
+            [
+                'user_id' => 1,
+                'pembeli' => 'Awaw',
+                'penjualan_kode' => 'CC10',
+                'penjualan_tanggal' => Carbon::now()->subDays(10),
+            ],
         ];
 
         DB::table('t_penjualan')->insert($data);
