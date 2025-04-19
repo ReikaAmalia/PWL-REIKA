@@ -7,16 +7,17 @@
                 <button onclick="modalAction('{{ url('/level/import') }}')" class="btn btn-info">Import Level</button>
                 <a href="{{ url('/level/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Level(Excel)</a> 
                 <a href="{{ url('/level/export_pdf') }}" class="btn btn-warning"><i class="fa fa-file-pdf"></i> Export Level (PDF)</a>
-                  <button onclick="modalAction('{{ url('level/create_ajax') }}')" class="btn btn-success">Tambah Data (Ajax)</button>
-            </div>
-            </div>
-        </div>
+                <button onclick="modalAction('{{ url('level/create_ajax') }}')" class="btn btn-success">Tambah Data (Ajax)</button>
+            </div> <!-- card-tools -->
+        </div> <!-- card-header -->
+
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         @if (session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
+
         <div class="row mx-3 mt-2">
             <div class="col-md-12">
                 <div class="form-group row">
@@ -33,6 +34,7 @@
                 </div>
             </div>
         </div>
+
         <div class="card-body">
             <table class="table table-bordered table-striped table-hover table-sm" id="table_level">
                 <thead>
@@ -45,68 +47,71 @@
                     </tr>
                 </thead>
             </table>
-        </div>
-    </div>
+        </div> <!-- card-body -->
+    </div> <!-- card -->
+
     <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
-    data-keyboard="false" data-width="75%" aria-hidden="true"></div>
+        data-keyboard="false" data-width="75%" aria-hidden="true"></div>
 @endsection
 
 @push('js')
     <script>
         function modalAction(url = '') {
-          $('#myModal').load(url, function () {
-              $('#myModal').modal('show');
-          });
-      }
-      var tableLevel;
-      $(document).ready(function () {
-          tableLevel = $('#table_level').DataTable({
-              processing: true,
-              serverSide: true,
-              ajax: {
-                  url: "{{ url('level/list') }}",
-                  type: "POST",
-                  dataType: "json",
+            $('#myModal').load(url, function () {
+                $('#myModal').modal('show');
+            });
+        }
+
+        var tableLevel;
+        $(document).ready(function () {
+            tableLevel = $('#table_level').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ url('level/list') }}",
+                    type: "POST",
+                    dataType: "json",
                 },
-                columns: [ {
-                      data: "DT_RowIndex",
-                      className: "text-center",
-                      width: "4%",
-                      orderable: false,
-                      searchable: false
-                  },
-                  {
-                      data: "level_id",
-                      className: "text-center",
-                      width: "10%",
-                      orderable: true,
-                      searchable: false
-                  },
-                  {
-                      data: "level_kode",
-                      className: "",
-                      width: "20%",
-                      orderable: true,
-                      searchable: true
-                  },
-                  {
-                      data: "level_nama",
-                      className: "",
-                      width: "40%",
-                      orderable: true,
-                      searchable: true
-                  },
-                  {
-                    data: "aksi",
-                      className: "text-center",
-                      orderable: false,
-                      searchable: false
-                  }
+                columns: [
+                    {
+                        data: "DT_RowIndex",
+                        className: "text-center",
+                        width: "4%",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "level_id",
+                        className: "text-center",
+                        width: "10%",
+                        orderable: true,
+                        searchable: false
+                    },
+                    {
+                        data: "level_kode",
+                        className: "",
+                        width: "20%",
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: "level_nama",
+                        className: "",
+                        width: "40%",
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: "aksi",
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    }
                 ]
             });
 
             $('#level_kode').on('change', function () {
-                dataLevel.ajax.reload();
+                tableLevel.ajax.reload();
             });
         });
     </script>
