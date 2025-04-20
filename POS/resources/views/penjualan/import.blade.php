@@ -1,84 +1,58 @@
-<form action="{{ url('/penjualan/import_ajax') }}" method="POST" id="form-import-penjualan" enctype="multipart/form-data">
+<form id="formImport" method="POST" enctype="multipart/form-data">
     @csrf
-    <div id="modal-import-penjualan" class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Import Data Penjualan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Download Template</label>
-                    <a href="{{ asset('template_penjualan.xlsx') }}" class="btn btn-info btn-sm" download>
-                        <i class="fa fa-file-excel"></i> Download
-                    </a>
-                    <small id="error-template" class="error-text form-text text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label>Pilih File</label>
-                    <input type="file" name="file_penjualan" id="file_penjualan" class="form-control" required>
-                    <small id="error-file_penjualan" class="error-text form-text text-danger"></small>
-                </div> 
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                <button type="submit" class="btn btn-primary">Upload</button>
-            </div>
+    <div class="modal-header">
+        <h5 class="modal-title">Import Data Penjualan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Download Template</label><br>
+            <a href="{{ url('template/template_penjualan.xlsx') }}" class="btn btn-sm btn-primary" target="_blank">
+                <i class="fa fa-download"></i> Download
+            </a>
         </div>
+        <div class="form-group">
+            <label for="file_penjualan">Pilih File</label>
+            <input type="file" name="file_penjualan" id="file_penjualan" class="form-control" accept=".xlsx" required>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
     </div>
 </form>
 
 <script>
-    $(document).ready(function() {
-        $("#form-import-penjualan").validate({
-            rules: {
-                file_penjualan: {required: true, extension: "xlsx"},
+    $('#formImport').on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: "{{ url('penjualan/import_ajax') }}",
+            method: "POST",
+            data: formData,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            beforeSend: function() {
+                // tampilkan loading, disable tombol, dll
             },
-            submitHandler: function(form) {
-                var formData = new FormData(form);
-                $.ajax({
-                    url: form.action,
-                    type: form.method,
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        if (response.status) {
-                            $('#modal-import-penjualan').modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: response.message
-                            });
-                            tablePenjualan.ajax.reload(); // reload datatable penjualan
-                        } else {
-                            $('.error-text').text('');
-                            $.each(response.msgField, function(prefix, val) {
-                                $('#error-' + prefix).text(val[0]);
-                            });
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: response.message
-                            });
-                        }
-                    }
-                });
-                return false;
+            success: function(response) {
+                if (response.status) {
+                    alert(response.message);
+                    $('#myModal').modal('hide');
+                    $('#table_stok').DataTable().ajax.reload(); // reload data
+                } else {
+                    alert(response.message);
+                }
             },
-            errorElement: 'span',
-            errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function (element) {
-                $(element).addClass('is-invalid');
-            },
-            unhighlight: function (element) {
-                $(element).removeClass('is-invalid');
-            }
+            error: function(xhr) {
+    console.log(xhr.responseText);
+    alert("Terjadi kesalahan saat mengupload file.");
+}
+
         });
     });
 </script>
