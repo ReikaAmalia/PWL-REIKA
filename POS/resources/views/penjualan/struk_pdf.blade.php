@@ -50,7 +50,7 @@
 
 <body>
     <div class="text-center">
-        <strong style="font-size: 16px;">Warung Madura</strong><br>
+        <strong style="font-size: 16px;">Toko Rere Barokah</strong><br>
         Jl. Dinoyo Permai<br>
         <div class="line"></div>
     </div>

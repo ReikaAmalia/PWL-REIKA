@@ -13,6 +13,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PenjualanController extends Controller
 {
@@ -46,7 +47,7 @@ class PenjualanController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function ($penjualan) {
                 $btn = '<button onclick="modalAction(\'' . url('/penjualan/' . $penjualan->penjualan_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/penjualan/' . $penjualan->penjualan_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                // $btn .= '<button onclick="modalAction(\'' . url('/penjualan/' . $penjualan->penjualan_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('/penjualan/' . $penjualan->penjualan_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button>';
                 $btn .= '<a href="' . url('/penjualan/' . $penjualan->penjualan_id . '/struk_pdf') . '" target="_blank" class="btn btn-success btn-sm">Cetak Struk</a>';
                 return $btn;
@@ -275,6 +276,97 @@ class PenjualanController extends Controller
         return $pdf->stream('Data Penjualan ' . date('Y-m-d H:i:s') . '.pdf');
     }
 
+
+    public function import()
+    {
+        return view('penjualan.import');
+    }
+    
+    public function import_ajax(Request $request)
+{
+    if ($request->ajax() || $request->wantsJson()) {
+        $validator = Validator::make($request->all(), [
+            'file_penjualan' => 'required|mimes:xlsx,xls'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validasi Gagal',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        try {
+            $file = $request->file('file_penjualan');
+            $spreadsheet = IOFactory::load($file);
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray();
+
+            DB::beginTransaction();
+
+            foreach ($data as $i => $row) {
+                if ($i == 0) continue; // lewati baris header
+
+                $user = UserModel::where('nama', $row[0])->first(); // contoh: ambil user dari kolom A
+                $pembeli = $row[1]; // kolom B
+                $kode = $row[2]; // kolom C
+                $tanggal = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[3]); // kolom D
+                $barang = BarangModel::where('barang_nama', $row[4])->first(); // kolom E
+                $harga = $row[5]; // kolom F
+                $jumlah = $row[6]; // kolom G
+
+                if (!$user || !$barang) continue; // skip jika tidak ditemukan
+
+                $penjualan = PenjualanModel::firstOrCreate([
+                    'penjualan_kode' => $kode
+                ], [
+                    'user_id' => $user->user_id,
+                    'pembeli' => $pembeli,
+                    'penjualan_tanggal' => $tanggal
+                ]);
+
+                PenjualanDetailModel::create([
+                    'penjualan_id' => $penjualan->penjualan_id,
+                    'barang_id' => $barang->barang_id,
+                    'harga' => $harga,
+                    'jumlah' => $jumlah
+                ]);
+
+                // kurangi stok
+                $stok = StokModel::where('barang_id', $barang->barang_id)->first();
+                if ($stok && $stok->stok_jumlah >= $jumlah) {
+                    $stok->stok_jumlah -= $jumlah;
+                    $stok->save();
+                } else {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Stok tidak cukup untuk barang: ' . $barang->barang_nama
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Data Penjualan berhasil diimport'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal import: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    return redirect('/');
+}
+
+
+
     public function struk_pdf($id)
     {
         $penjualan = PenjualanModel::with(['detail.barang', 'user'])->findOrFail($id);
@@ -283,4 +375,6 @@ class PenjualanController extends Controller
         $pdf->setPaper([0, 0, 226.77, 600], 'portrait'); // ukuran struk kecil
         return $pdf->stream('Struk_Penjualan_' . $penjualan->penjualan_kode . '.pdf');
     }
+
+
 }

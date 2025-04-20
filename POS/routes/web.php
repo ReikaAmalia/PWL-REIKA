@@ -237,7 +237,10 @@ Route::group(['prefix' => 'barang'], function () {
         Route::post('/stok/list', [StokController::class, 'list']);
         Route::get('/stok/create', [StokController::class, 'create']);
         Route::post('/stok', [StokController::class, 'store']);
+
         Route::get('/stok/create_ajax', [StokController::class, 'create_ajax']);
+        Route::post('/stok/store_ajax', [StokController::class, 'store_ajax']);
+        
         Route::post('/stok/ajax', [StokController::class, 'store_ajax']);
         Route::get('/stok/{id}', [StokController::class, 'show']);
         Route::get('/stok/{id}/show_ajax', [StokController::class, 'show_ajax']);
@@ -270,6 +273,8 @@ Route::group(['prefix' => 'barang'], function () {
         Route::get('/penjualan/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']);
         Route::delete('/penjualan/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']);
         Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy']);
+        Route::post('/penjualan/import_ajax', [PenjualanController::class, 'import_ajax']);
+        Route::get('/penjualan/export_excel', [PenjualanController::class, 'export_excel']);
         Route::get('/penjualan/export_pdf', [PenjualanController::class, 'export_pdf']);
         Route::get('/penjualan/{id}/struk_pdf', [PenjualanController::class, 'struk_pdf'])->name('penjualan.struk_pdf');
 
