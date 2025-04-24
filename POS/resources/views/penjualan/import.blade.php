@@ -25,34 +25,54 @@
 </form>
 
 <script>
-    $('#formImport').on('submit', function(e) {
-        e.preventDefault();
-        var formData = new FormData(this);
-
-        $.ajax({
-            url: "{{ url('penjualan/import_ajax') }}",
-            method: "POST",
-            data: formData,
-            dataType: 'json',
-            processData: false,
-            contentType: false,
-            beforeSend: function() {
-                // tampilkan loading, disable tombol, dll
+    $(document).ready(function() {
+        $("#form-import").validate({
+            rules: {
+                file_level: {required: true, extension: "xlsx"},
             },
-            success: function(response) {
-                if (response.status) {
-                    alert(response.message);
-                    $('#myModal').modal('hide');
-                    $('#table_stok').DataTable().ajax.reload(); // reload data
-                } else {
-                    alert(response.message);
-                }
+            submitHandler: function(form) {
+                var formData = new FormData(form); // Jadikan form ke FormData untuk menghandle file
+                $.ajax({
+                    url: form.action,
+                    type: form.method,
+                    data: formData, // Data yang dikirim berupa FormData
+                    processData: false, // setting processData dan contentType ke false, untuk menghandle file
+                    contentType: false,
+                    success: function(response) {
+                        if(response.status){ // jika sukses
+                            $('#myModal').modal('hide');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: response.message
+                            });
+                            tableLevel.ajax.reload(); // reload datatable
+                        }else{ // jika error
+                            $('.error-text').text('');
+                            $.each(response.msgField, function(prefix, val) {
+                                $('#error-'+prefix).text(val[0]);
+                            });
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Terjadi Kesalahan',
+                                text: response.message
+                            });
+                        }
+                    }
+                });
+                return false;
             },
-            error: function(xhr) {
-    console.log(xhr.responseText);
-    alert("Terjadi kesalahan saat mengupload file.");
-}
-
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+            }
         });
     });
 </script>
