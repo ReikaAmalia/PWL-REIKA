@@ -156,7 +156,7 @@
              <thead>
                  <tr>
                     <th style="text-align: center;">No</th>
-                    <th style="text-align: center;">Id Barang</th>
+
                     <th style="text-align: center;">Kode Barang</th>
                     <th style="text-align: center;">Nama Barang</th>
                     <th style="text-align: center;">Kategori</th>
@@ -215,6 +215,13 @@
                      searchable: true,
                  },
                  {
+                     data: "kategori.kategori_nama",
+                     className: "",
+                     width: "14%",
+                     orderable: true,
+                     searchable: false
+                 },
+                 {
                      data: "harga_jual",
                      className: "",
                      width: "10%",
@@ -233,13 +240,6 @@
                      render: function(data, type, row){
                          return new Intl.NumberFormat('id-ID').format(data);
                      }
-                 },
-                 {
-                     data: "kategori.nama_kategori",
-                     className: "",
-                     width: "14%",
-                     orderable: true,
-                     searchable: false
                  },
                  {
                      data: "aksi",
